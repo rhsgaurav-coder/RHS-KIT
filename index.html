@@ -327,9 +327,14 @@ tbody tr:hover{background:#FAFCFF}
         <button class="btn btn-pur btn-sm" onclick="openDedM()" style="margin-left:auto"><i class="ti ti-plus"></i> New Deduction</button>
       </div>
       <div class="card">
-        <div class="c-hd"><div class="c-tt"><i class="ti ti-cash-minus" style="color:var(--purple)"></i> Early Kit Deductions</div><span style="font-size:12px;color:var(--muted)">Kit given before 1-year completion</span></div>
+        <div class="c-hd"><div class="c-tt"><i class="ti ti-cash-minus" style="color:var(--purple)"></i> Kit Deductions</div>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="font-size:11px;background:var(--purple-bg);color:var(--purple);border:1px solid var(--purple-b);padding:3px 10px;border-radius:20px;font-weight:700">⚡ Auto-calculates on employee removal</span>
+            <span style="font-size:12px;color:var(--muted)">Total Kit Value: ₹1,700</span>
+          </div>
+        </div>
         <div class="tw"><table>
-          <thead><tr><th>Employee</th><th>Company</th><th>Date</th><th>Kit</th><th>Days Used</th><th>Days Left</th><th>Deduction ₹</th><th>Status</th><th>Actions</th></tr></thead>
+          <thead><tr><th>Employee</th><th>Company</th><th>Date</th><th>Reason</th><th>Period Used</th><th>Policy Slab</th><th>Ded %</th><th>Deduction ₹</th><th>Retained ₹</th><th>Status</th><th>Actions</th></tr></thead>
           <tbody id="ded-tb"></tbody>
         </table></div>
       </div>
@@ -402,30 +407,48 @@ tbody tr:hover{background:#FAFCFF}
 
 <!-- DEDUCTION MODAL -->
 <div class="overlay" id="ded-m">
-<div class="modal">
-  <div class="m-hd"><div class="m-tt"><i class="ti ti-cash-minus" style="color:var(--purple)"></i> New Early Kit Deduction</div><button class="bti" onclick="closeM('ded-m')"><i class="ti ti-x"></i></button></div>
+<div class="modal" style="width:640px">
+  <div class="m-hd"><div class="m-tt"><i class="ti ti-cash-minus" style="color:var(--purple)"></i> Early Kit Deduction — Policy Based</div><button class="bti" onclick="closeM('ded-m')"><i class="ti ti-x"></i></button></div>
   <div class="m-bd">
-    <div class="ib amber"><i class="ti ti-info-circle"></i>When employee needs kit before 1 year, proportional amount is deducted from salary.</div>
-    <div class="fg"><label>Employee *</label><input id="d-es" list="d-edl" placeholder="Type name or code…" oninput="calcDed()"><datalist id="d-edl"></datalist></div>
-    <div class="g2">
-      <div class="fg"><label>Request Date *</label><input type="date" id="d-dt" oninput="calcDed()"></div>
-      <div class="fg"><label>Kit Type</label><select id="d-tp" onchange="calcDed()"><option value="full">Full Kit</option><option value="shoes">Shoes Only</option><option value="shirt">Shirt Only</option></select></div>
+    <!-- Policy Table -->
+    <div style="border:1px solid var(--purple-b);border-radius:10px;overflow:hidden">
+      <div style="background:var(--purple);padding:9px 14px;font-size:11.5px;font-weight:800;color:#fff;letter-spacing:.3px">📋 UNIFORM DEDUCTION POLICY (Total Kit Value: ₹1,700)</div>
+      <table style="width:100%;border-collapse:collapse;font-size:12px">
+        <thead><tr style="background:#F5F3FF">
+          <th style="padding:7px 12px;text-align:left;color:var(--purple);font-weight:800;border-bottom:1px solid var(--purple-b)">Service Period</th>
+          <th style="padding:7px 12px;text-align:center;color:var(--purple);font-weight:800;border-bottom:1px solid var(--purple-b)">Deduction %</th>
+          <th style="padding:7px 12px;text-align:center;color:var(--purple);font-weight:800;border-bottom:1px solid var(--purple-b)">Deduction ₹</th>
+          <th style="padding:7px 12px;text-align:center;color:var(--purple);font-weight:800;border-bottom:1px solid var(--purple-b)">Retained ₹</th>
+        </tr></thead>
+        <tbody>
+          <tr style="background:#FFF0F3"><td style="padding:6px 12px;border-bottom:1px solid #FFD6E0;font-weight:700">1 – 4 Months</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid #FFD6E0;font-weight:800;color:var(--red)">100%</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid #FFD6E0;font-weight:700">₹1,700</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid #FFD6E0;color:var(--muted)">₹0</td></tr>
+          <tr style="background:#FFF8EC"><td style="padding:6px 12px;border-bottom:1px solid var(--amber-b);font-weight:700">4 – 6 Months</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--amber-b);font-weight:800;color:var(--amber)">80%</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--amber-b);font-weight:700">₹1,360</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--amber-b);color:var(--muted)">₹340</td></tr>
+          <tr style="background:#FFF8EC"><td style="padding:6px 12px;border-bottom:1px solid var(--amber-b);font-weight:700">6 – 9 Months</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--amber-b);font-weight:800;color:var(--amber)">50%</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--amber-b);font-weight:700">₹850</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--amber-b);color:var(--muted)">₹850</td></tr>
+          <tr style="background:#EFF6FF"><td style="padding:6px 12px;border-bottom:1px solid var(--blue-b);font-weight:700">9 – 11 Months</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--blue-b);font-weight:800;color:var(--blue)">20%</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--blue-b);font-weight:700">₹340</td><td style="padding:6px 12px;text-align:center;border-bottom:1px solid var(--blue-b);color:var(--muted)">₹1,360</td></tr>
+          <tr style="background:#F0FDF4"><td style="padding:6px 12px;font-weight:700">12 Months</td><td style="padding:6px 12px;text-align:center;font-weight:800;color:#15803D">0% — New Kit</td><td style="padding:6px 12px;text-align:center;font-weight:700">₹0</td><td style="padding:6px 12px;text-align:center;color:var(--muted)">₹1,700</td></tr>
+        </tbody>
+      </table>
     </div>
+    <!-- Form -->
+    <div class="fg"><label>Select Employee *</label><input id="d-es" list="d-edl" placeholder="Type name or employee code…" oninput="calcDed()"><datalist id="d-edl"></datalist></div>
     <div class="g2">
-      <div class="fg"><label>Shoe Price ₹</label><input type="number" id="d-sp" placeholder="e.g. 500" oninput="calcDed()"></div>
-      <div class="fg"><label>Shirt Price ₹</label><input type="number" id="d-rp" placeholder="e.g. 350" oninput="calcDed()"></div>
+      <div class="fg"><label>Request / Leaving Date *</label><input type="date" id="d-dt" oninput="calcDed()"></div>
+      <div class="fg"><label>Reason</label><select id="d-tp" onchange="calcDed()"><option value="leaving">Employee Leaving</option><option value="early">Early Kit Request</option><option value="lost">Lost / Damaged Kit</option><option value="other">Other</option></select></div>
     </div>
+    <!-- Auto Calculation Result -->
     <div id="dc-box" class="dc-box" style="display:none">
-      <p style="font-size:11px;font-weight:800;color:var(--amber);margin-bottom:8px;text-transform:uppercase;letter-spacing:.5px"><i class="ti ti-calculator"></i> Auto Calculation</p>
-      <div class="cr"><span>Last Kit Date</span><span id="dc-lk" style="font-weight:700">—</span></div>
-      <div class="cr"><span>Days Used</span><span id="dc-el" style="font-weight:700">—</span></div>
-      <div class="cr"><span>Days Remaining (of 365)</span><span id="dc-re" style="font-weight:700;color:var(--amber)">—</span></div>
-      <div class="cr"><span>Kit Cost</span><span id="dc-co" style="font-weight:700">—</span></div>
+      <p style="font-size:11px;font-weight:800;color:var(--amber);margin-bottom:9px;text-transform:uppercase;letter-spacing:.5px"><i class="ti ti-calculator"></i> Auto-Calculated as per Policy</p>
+      <div class="cr"><span>Last Kit Given Date</span><span id="dc-lk" style="font-weight:700">—</span></div>
+      <div class="cr"><span>Service Period (months used)</span><span id="dc-el" style="font-weight:700;color:var(--purple)">—</span></div>
+      <div class="cr"><span>Applicable Slab</span><span id="dc-sl" style="font-weight:800;color:var(--purple)">—</span></div>
+      <div class="cr"><span>Deduction %</span><span id="dc-pc" style="font-weight:800;color:var(--red)">—</span></div>
       <div class="cdiv"></div>
-      <div class="cr"><span style="font-weight:700">Deduction Amount</span><span class="ctot" id="dc-am">₹0</span></div>
+      <div class="cr"><span>Total Kit Value</span><span style="font-weight:700">₹1,700</span></div>
+      <div class="cr"><span style="font-weight:700">Deduction Amount (to recover)</span><span class="ctot" id="dc-am">₹0</span></div>
+      <div class="cr"><span style="font-weight:700;color:#15803D">Amount Retained by Employee</span><span style="font-weight:800;color:#15803D;font-family:'Sora',sans-serif" id="dc-rt">₹0</span></div>
     </div>
-    <div class="fg"><label>Override Amount ₹ (optional)</label><input type="number" id="d-ov" placeholder="Leave blank to use calculated amount"></div>
-    <div class="fg"><label>Reason / Notes</label><textarea id="d-nt" placeholder="e.g. Lost shoes, damaged kit…"></textarea></div>
+    <div class="fg"><label>Override Deduction Amount ₹ (optional)</label><input type="number" id="d-ov" placeholder="Leave blank to use policy-calculated amount"></div>
+    <div class="fg"><label>Notes</label><textarea id="d-nt" placeholder="Additional notes…"></textarea></div>
   </div>
   <div class="m-ft"><button class="btn btn-g" onclick="closeM('ded-m')">Cancel</button><button class="btn btn-pur" onclick="saveDed()"><i class="ti ti-check"></i> Save Deduction</button></div>
 </div>
@@ -749,7 +772,7 @@ function renderEmps(){
       <td><div class="ra">
         <button class="bti" title="Issue kit" onclick="qIssue('${e.empCode}')"><i class="ti ti-gift"></i></button>
         <button class="bti" title="Edit" onclick="openEmpM('${e.empCode}')"><i class="ti ti-edit"></i></button>
-        ${!e.isBase?`<button class="bti" title="Delete" onclick="delEmp('${e.empCode}')" style="color:var(--red)"><i class="ti ti-trash"></i></button>`:'<button class="bti" title="Remove from portal" onclick="removeEmp(\''+e.empCode+'\')" style="color:var(--amber)"><i class="ti ti-eye-off"></i></button>'}
+        ${!e.isBase?`<button class="bti" title="Delete employee (auto-calculates deduction)" onclick="delEmp('${e.empCode}')" style="color:var(--red)"><i class="ti ti-trash"></i></button>`:`<button class="bti" title="Remove from portal (auto-calculates kit deduction)" onclick="removeEmp('${e.empCode}')" style="color:var(--amber)"><i class="ti ti-eye-off"></i></button>`}
       </div></td>
     </tr>`;
   }).join('');
@@ -805,21 +828,92 @@ function saveEmp(){
   qS(); closeM('emp-m'); renderEmps(); renderDash();
 }
 
+// ── Auto-create deduction when employee leaves/removed ──
+function autoDeductOnRemove(code){
+  const e = getEmp(code); if(!e) return;
+  const lk = effKit(code);
+  if(!lk){ return; } // No kit given — no deduction needed
+  const today = tod();
+  const elDays = Math.max(0, Math.round((new Date(today)-new Date(lk))/86400000));
+  const elMonths = elDays/30.44;
+  const slab = getSlab(elMonths);
+  if(slab.deduct===0){
+    toast('Employee completed 12 months — No deduction applicable ✅','ok');
+    return;
+  }
+  const record = {
+    id: uid(),
+    empCode: code,
+    date: today,
+    reason: 'leaving',
+    elapsedDays: elDays,
+    elapsedMonths: parseFloat(elMonths.toFixed(1)),
+    slab: slab.label,
+    slabPct: slab.pct,
+    calcAmount: slab.deduct,
+    finalAmount: slab.deduct,
+    retained: slab.retained,
+    notes: 'Auto-calculated on employee removal from portal',
+    recovered: false,
+    recoveredDate: null
+  };
+  if(!C.deductions) C.deductions=[];
+  C.deductions.push(record);
+  return record;
+}
+
 function removeEmp(code){
-  if(!confirm('Hide this employee from the portal? They will not appear in any list.'))return;
-  if(!C.removedCodes)C.removedCodes=[];
+  const e = getEmp(code);
+  const lk = effKit(code);
+  const today = tod();
+  let slabInfo = '';
+  if(lk){
+    const elDays = Math.max(0,Math.round((new Date(today)-new Date(lk))/86400000));
+    const elMonths = elDays/30.44;
+    const slab = getSlab(elMonths);
+    slabInfo = slab.deduct>0
+      ? `\n\n📋 KIT DEDUCTION WILL BE AUTO-CREATED:\n  • Period used: ${elMonths.toFixed(1)} months (${elDays} days)\n  • Slab: ${slab.label} → ${slab.pct}%\n  • Deduction: ₹${slab.deduct.toLocaleString('en-IN')}\n  • Retained: ₹${slab.retained.toLocaleString('en-IN')}`
+      : '\n\n✅ Employee completed 12 months — No kit deduction.';
+  } else {
+    slabInfo = '\n\nℹ️ No kit was given to this employee — No deduction.';
+  }
+  if(!confirm('Remove employee: ' + (e?.name||code) + ' from portal?'+slabInfo)) return;
+  if(!C.removedCodes) C.removedCodes=[];
   C.removedCodes.push(code);
+  const rec = autoDeductOnRemove(code);
   qS(); renderEmps(); renderDash();
-  toast('Employee hidden from portal','info');
+  if(rec){
+    toast(`Employee removed. Deduction ₹${rec.finalAmount.toLocaleString('en-IN')} auto-added (${rec.slab})`,'info');
+  } else {
+    toast('Employee hidden from portal','info');
+  }
 }
 
 function delEmp(code){
-  if(!confirm('Permanently delete this employee and all their records?'))return;
+  const e = getEmp(code);
+  const lk = effKit(code);
+  const today = tod();
+  let slabInfo = '';
+  if(lk){
+    const elDays = Math.max(0,Math.round((new Date(today)-new Date(lk))/86400000));
+    const elMonths = elDays/30.44;
+    const slab = getSlab(elMonths);
+    slabInfo = slab.deduct>0
+      ? `\n\n📋 KIT DEDUCTION WILL BE AUTO-CREATED:\n  • Period used: ${elMonths.toFixed(1)} months (${elDays} days)\n  • Slab: ${slab.label} → ${slab.pct}%\n  • Deduction: ₹${slab.deduct.toLocaleString('en-IN')}\n  • Retained: ₹${slab.retained.toLocaleString('en-IN')}`
+      : '\n\n✅ Employee completed 12 months — No kit deduction.';
+  } else {
+    slabInfo = '\n\nℹ️ No kit was given to this employee — No deduction.';
+  }
+  if(!confirm('Permanently DELETE employee: '+(e?.name||code)+'?'+slabInfo+`\n\nThis action cannot be undone.`)) return;
+  const rec = autoDeductOnRemove(code);
   C.addedEmps=(C.addedEmps||[]).filter(e=>e.empCode!==code);
   C.kits=(C.kits||[]).filter(k=>k.empCode!==code);
-  C.deductions=(C.deductions||[]).filter(d=>d.empCode!==code);
   qS(); renderEmps(); renderDash();
-  toast('Employee deleted','info');
+  if(rec){
+    toast(`Employee deleted. Deduction ₹${rec.finalAmount.toLocaleString('en-IN')} auto-added (${rec.slab})`,'info');
+  } else {
+    toast('Employee deleted','info');
+  }
 }
 
 // ══════════════════ ISSUE KIT ══════════════════
@@ -983,10 +1077,23 @@ function openDedM(){
   const dl=document.getElementById('d-edl');dl.innerHTML='';
   allEmps().forEach(e=>{const o=document.createElement('option');o.value=`${stripPfx(e.name)} [${e.empCode}]`;dl.appendChild(o);});
   document.getElementById('d-dt').value=tod();
-  ['d-sp','d-rp','d-ov','d-nt'].forEach(x=>document.getElementById(x).value='');
+  ['d-ov','d-nt'].forEach(x=>document.getElementById(x).value='');
   document.getElementById('d-es').value='';
   document.getElementById('dc-box').style.display='none';
   openM('ded-m');
+}
+
+// POLICY SLABS (Total kit value ₹1,700)
+const DED_SLABS=[
+  {label:'1 – 4 Months', minM:0,  maxM:4,  pct:100, deduct:1700, retained:0},
+  {label:'4 – 6 Months', minM:4,  maxM:6,  pct:80,  deduct:1360, retained:340},
+  {label:'6 – 9 Months', minM:6,  maxM:9,  pct:50,  deduct:850,  retained:850},
+  {label:'9 – 11 Months',minM:9,  maxM:12, pct:20,  deduct:340,  retained:1360},
+  {label:'12 Months',    minM:12, maxM:999,pct:0,   deduct:0,    retained:1700},
+];
+
+function getSlab(months){
+  return DED_SLABS.find(s=>months>=s.minM && months<s.maxM)||DED_SLABS[4];
 }
 
 function dedCode(){const v=document.getElementById('d-es').value;const m=v.match(/\[([^\]]+)\]/);return m?m[1]:null;}
@@ -994,44 +1101,46 @@ function dedCode(){const v=document.getElementById('d-es').value;const m=v.match
 function calcDed(){
   const code=dedCode();
   const date=document.getElementById('d-dt').value;
-  const tp=document.getElementById('d-tp').value;
-  const sp=parseFloat(document.getElementById('d-sp').value)||0;
-  const rp=parseFloat(document.getElementById('d-rp').value)||0;
   const box=document.getElementById('dc-box');
   if(!code||!date){box.style.display='none';return;}
   const lk=effKit(code);
   if(!lk){box.style.display='none';return;}
-  const el=Math.max(0,Math.round((new Date(date)-new Date(lk))/86400000));
-  const re=Math.max(0,365-el);
-  let cost=tp==='full'?sp+rp:tp==='shoes'?sp:rp;
-  const amt=Math.round(cost*(re/365));
+  const elDays=Math.max(0,Math.round((new Date(date)-new Date(lk))/86400000));
+  const elMonths=elDays/30.44; // avg days per month
+  const slab=getSlab(elMonths);
   box.style.display='block';
   document.getElementById('dc-lk').textContent=fmtD(lk);
-  document.getElementById('dc-el').textContent=el+' days';
-  document.getElementById('dc-re').textContent=re+' days';
-  document.getElementById('dc-co').textContent=fmtR(cost);
-  document.getElementById('dc-am').textContent=fmtR(amt);
+  document.getElementById('dc-el').textContent=elDays+' days ('+elMonths.toFixed(1)+' months)';
+  document.getElementById('dc-sl').textContent=slab.label;
+  document.getElementById('dc-pc').textContent=slab.pct+'%';
+  document.getElementById('dc-am').textContent=fmtR(slab.deduct);
+  document.getElementById('dc-rt').textContent=fmtR(slab.retained);
 }
 
 function saveDed(){
   const code=dedCode();
   const date=document.getElementById('d-dt').value;
-  const tp=document.getElementById('d-tp').value;
-  const sp=parseFloat(document.getElementById('d-sp').value)||0;
-  const rp=parseFloat(document.getElementById('d-rp').value)||0;
+  const reason=document.getElementById('d-tp').value;
   const ov=parseFloat(document.getElementById('d-ov').value)||0;
   const nt=document.getElementById('d-nt').value.trim();
   if(!code||!date){toast('Select employee and date','err');return;}
   const lk=effKit(code)||date;
-  const el=Math.max(0,Math.round((new Date(date)-new Date(lk))/86400000));
-  const re=Math.max(0,365-el);
-  let cost=tp==='full'?sp+rp:tp==='shoes'?sp:rp;
-  const calc=Math.round(cost*(re/365));
+  const elDays=Math.max(0,Math.round((new Date(date)-new Date(lk))/86400000));
+  const elMonths=elDays/30.44;
+  const slab=getSlab(elMonths);
+  const calc=slab.deduct;
   const final=ov||calc;
-  C.deductions.push({id:uid(),empCode:code,date,type:tp,shoePrice:sp,shirtPrice:rp,elapsed:el,remaining:re,calcAmount:calc,finalAmount:final,notes:nt,recovered:false,recoveredDate:null});
+  const retained=ov ? (1700-ov) : slab.retained;
+  C.deductions.push({
+    id:uid(),empCode:code,date,reason,
+    elapsedDays:elDays,elapsedMonths:parseFloat(elMonths.toFixed(1)),
+    slab:slab.label,slabPct:slab.pct,
+    calcAmount:calc,finalAmount:final,retained,
+    notes:nt,recovered:false,recoveredDate:null
+  });
   qS();
   const e=getEmp(code);
-  toast(`Deduction ${fmtR(final)} saved for ${stripPfx(e?.name||code)}`,'ok');
+  toast(`Deduction ${fmtR(final)} saved for ${stripPfx(e?.name||code)} (${slab.label} slab)`,'ok');
   closeM('ded-m'); renderDeds();
 }
 
@@ -1057,14 +1166,17 @@ function renderDeds(){
   if(!deds.length){tb.innerHTML=`<tr><td colspan="9"><div class="empty-state"><i class="ti ti-cash-off"></i><p>No deductions yet</p></div></td></tr>`;return;}
   tb.innerHTML=deds.map(d=>{
     const e=getEmp(d.empCode)||{name:d.empCode,company:'—'};
+    const reasonLbl={leaving:'Leaving',early:'Early Request',lost:'Lost/Damaged',other:'Other'};
     return `<tr>
       <td><div class="ec"><div class="av ${avC(e.name)}">${ini(e.name)}</div><div><div class="en" style="font-size:12px">${stripPfx(e.name)}</div><div class="em">${d.empCode}</div></div></div></td>
       <td><span class="co-tag" style="font-size:10px">${e.company||'—'}</span></td>
       <td>${fmtD(d.date)}</td>
-      <td style="font-size:12px">${tl[d.type]||d.type}</td>
-      <td style="font-weight:700">${d.elapsed}d</td>
-      <td style="font-weight:700;color:var(--amber)">${d.remaining}d</td>
+      <td style="font-size:11.5px;color:var(--muted)">${reasonLbl[d.reason]||d.reason||'—'}</td>
+      <td style="font-weight:700;color:var(--purple)">${d.elapsedMonths||Math.round((d.elapsed||0)/30.44*10)/10} mo</td>
+      <td><span class="badge b-pur" style="font-size:10px">${d.slab||'—'}</span></td>
+      <td style="font-weight:800;color:var(--red)">${d.slabPct!=null?d.slabPct+'%':'—'}</td>
       <td class="rupee">${fmtR(d.finalAmount)}</td>
+      <td style="font-weight:700;color:#15803D">${fmtR(d.retained||0)}</td>
       <td><span class="badge ${d.recovered?'b-rec':'b-pnd'}">${d.recovered?'Recovered':'Pending'}</span></td>
       <td><div class="ra">
         ${!d.recovered?`<button class="btn btn-p btn-sm" onclick="markRec('${d.id}')"><i class="ti ti-check"></i> Recover</button>`:`<span style="font-size:11px;color:var(--muted)">${fmtD(d.recoveredDate)}</span>`}
