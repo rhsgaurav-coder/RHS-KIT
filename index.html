@@ -632,25 +632,54 @@ function enterApp(){
   refreshAll();
 }
 
+async function saveCloud(){
+  if(!binId) return; 
+  sy('busy','Saving…');
+  try{
+    // Save to localStorage first (instant backup)
+    localStorage.setItem('local_backup_'+LS_KEY, JSON.stringify(C));
+    
+    // Try to save to cloud
+    const r=await fetch(`${JBIN}/${binId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},body:JSON.stringify(C)});
+    if(!r.ok) throw new Error('HTTP '+r.status);
+    sy('ok','Saved ✓'); 
+    setTimeout(()=>sy('ok','Synced ☁️'),2000);
+  }catch(e){
+    // Cloud save failed, but data is safe in localStorage
+    sy('ok','Saved ✓');  // Show success because data IS saved locally
+    toast('Data saved locally (cloud sync failed)','info');
+  }
+}
+
 async function loadCloud(){
-  if(!binId) return; sy('busy','Loading…');
+  if(!binId) return; 
+  sy('busy','Loading…');
   try{
     const r=await fetch(`${JBIN}/${binId}/latest`,{headers:{'X-Master-Key':API_KEY}});
     if(!r.ok) throw new Error('HTTP '+r.status);
-    const res=await r.json(); C=res.record||{};
+    const res=await r.json(); 
+    C=res.record||{};
     ['addedEmps','removedCodes','kits','deductions','bulkOrders'].forEach(k=>{if(!C[k])C[k]=[];});
     if(!C.kitUpdates)C.kitUpdates={};
-    sy('ok','Synced');
-  }catch(e){sy('err','Sync error'); toast('Failed to load data','err');}
-}
-
-async function saveCloud(){
-  if(!binId) return; sy('busy','Saving…');
-  try{
-    const r=await fetch(`${JBIN}/${binId}`,{method:'PUT',headers:{'Content-Type':'application/json','X-Master-Key':API_KEY},body:JSON.stringify(C)});
-    if(!r.ok) throw new Error('HTTP '+r.status);
-    sy('ok','Saved ✓'); setTimeout(()=>sy('ok','Synced'),2000);
-  }catch(e){sy('err','Save failed'); toast('Save failed. Check connection.','err');}
+    sy('ok','Synced ☁️');
+  }catch(e){
+    // Cloud failed, try to load from localStorage backup
+    const backup = localStorage.getItem('local_backup_'+LS_KEY);
+    if(backup){
+      try{
+        C = JSON.parse(backup);
+        ['addedEmps','removedCodes','kits','deductions','bulkOrders'].forEach(k=>{if(!C[k])C[k]=[];});
+        if(!C.kitUpdates)C.kitUpdates={};
+        sy('ok','Loaded from backup');
+        toast('Using local backup data','info');
+      }catch(e2){
+        sy('err','Sync error');
+      }
+    }else{
+      sy('err','Sync error');
+      toast('Failed to load data','err');
+    }
+  }
 }
 
 function qS(){clearTimeout(saveTimer);saveTimer=setTimeout(saveCloud,800);}
@@ -1431,6 +1460,7 @@ async function init(){
   else{
     document.getElementById('app').style.display='flex';
     sy('busy','Loading data…');
+    // Try to load from cloud first
     await loadCloud();
     refreshAll();
   }
