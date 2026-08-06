@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Reliable Staffing — Kit Portal</title>
+<title>Gaurav Patil — Kit Portal</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.x/dist/tabler-icons.min.css">
@@ -168,7 +168,7 @@ tbody tr:hover{background:#FAFCFF}
 <!-- SETUP -->
 <div id="setup" class="sw" style="display:none">
 <div class="sc-card">
-  <div class="slogo"><div class="sic">R</div><div><div class="snm">Reliable</div><div class="ssb">Staffing Kit Portal</div></div></div>
+  <div class="slogo"><div class="sic">GP</div><div><div class="snm">Gaurav Patil</div><div class="ssb">Kit Portal Solution</div></div></div>
   <div id="ss1">
     <p style="font-family:'Sora',sans-serif;font-size:15px;font-weight:700;margin-bottom:5px">Connect Shared Storage</p>
     <p style="font-size:13px;color:var(--muted);margin-bottom:20px;line-height:1.7">All 1,409 employees are built-in. JSONBin stores your daily additions, kit records, deductions & orders.</p>
@@ -192,7 +192,7 @@ tbody tr:hover{background:#FAFCFF}
 <div id="app" class="app" style="display:none">
 <aside id="sb">
   <div class="s-top">
-    <div class="brand"><div class="b-ic"><span>R</span></div><div><div class="b-nm">Reliable</div><div class="b-sb">Staffing</div></div></div>
+    <div class="brand"><div class="b-ic"><span>GP</span></div><div><div class="b-nm">Gaurav Patil</div><div class="b-sb">Kit Portal</div></div></div>
   </div>
   <nav>
     <div class="ng"><div class="ng-lb">Overview</div>
@@ -211,7 +211,7 @@ tbody tr:hover{background:#FAFCFF}
       <div class="nl" data-p="settings" onclick="go('settings')"><i class="ti ti-settings"></i><span>Settings</span></div>
     </div>
   </nav>
-  <div class="s-ft"><div class="sy-row"><div class="sd busy" id="sdot"></div><span id="slbl">Connecting…</span></div></div>
+  <div class="s-ft"><div class="sy-row"><div class="sd busy" id="sdot"></div><span id="slbl">Connecting…</span></div><div style="font-size:10px;color:#7A96AE;margin-top:8px;line-height:1.5;font-weight:600">🎯 Developed by<br><strong style="color:#0ABFA3;font-size:11px">GAURAV PATIL</strong></div></div>
 </aside>
 
 <div id="mn">
@@ -223,6 +223,12 @@ tbody tr:hover{background:#FAFCFF}
 
     <!-- DASHBOARD -->
     <div id="page-dashboard" class="page active">
+      <div style="background:linear-gradient(135deg,rgba(10,191,163,.08),rgba(8,145,178,.08));border:1px solid rgba(10,191,163,.2);border-radius:14px;padding:16px 18px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div style="font-family:'Sora',sans-serif;font-weight:800;color:var(--brand);font-size:13px">🎯 GAURAV PATIL'S KIT PORTAL</div>
+          <div style="font-size:12px;color:var(--muted);margin-top:3px">Efficient Employee Kit Allocation & One-Year Tracking System</div>
+        </div>
+      </div>
       <div class="stats" id="dash-stats"></div>
       <div class="card">
         <div class="c-hd">
@@ -247,6 +253,9 @@ tbody tr:hover{background:#FAFCFF}
         <select id="est-f" class="fsl" onchange="renderEmps()"><option value="">All Status</option><option value="due">Overdue</option><option value="soon">Due Soon (60d)</option><option value="ok">Active</option><option value="none">No Kit</option></select>
         <span id="ecnt" style="font-size:12px;color:var(--muted);font-weight:700;margin-left:auto"></span>
         <button class="btn btn-p btn-sm" onclick="openEmpM()"><i class="ti ti-plus"></i> Add Employee</button>
+        <button class="btn btn-p btn-sm" onclick="document.getElementById('bulk-emp-upload').click()"><i class="ti ti-upload"></i> Bulk Import</button>
+        <button class="btn btn-g btn-sm" onclick="exportEmployees()"><i class="ti ti-download"></i> Export CSV</button>
+        <input type="file" id="bulk-emp-upload" accept=".csv" style="display:none" onchange="handleBulkImport(event)">
       </div>
       <div class="card" style="margin-bottom:0">
         <div class="tw"><table>
@@ -380,7 +389,16 @@ tbody tr:hover{background:#FAFCFF}
             <div class="sr-row"><div class="sl">Kit Records</div><span id="s-kr" class="rupee">—</span></div>
             <div class="sr-row"><div class="sl">Deductions</div><span id="s-dr" class="rupee">—</span></div>
             <div class="sr-row"><div class="sl">Bulk Orders</div><span id="s-bo" class="rupee">—</span></div>
-            <div class="sr-row"><div class="sl">Version</div><span style="font-size:12px;color:var(--muted);font-weight:700">Reliable Kit Portal v4.0</span></div>
+            <div class="sr-row"><div class="sl">Version</div><span style="font-size:12px;color:var(--muted);font-weight:700">Kit Portal v4.0 — Built by Gaurav Patil</span></div>
+          </div>
+        </div>
+        <div class="card" style="background:linear-gradient(135deg,rgba(10,191,163,.05),rgba(8,145,178,.05));border:1px solid rgba(10,191,163,.2)">
+          <div class="c-hd"><div class="c-tt"><i class="ti ti-user-check"></i> Creator</div></div>
+          <div class="c-bd">
+            <div class="sr-row"><div class="sl">Developed by</div><span style="font-weight:800;color:var(--brand);font-size:13px">👨‍💼 Gaurav Patil</span></div>
+            <div class="sr-row"><div class="sl">Portal Name</div><span style="font-weight:700">Kit Management Portal</span></div>
+            <div class="sr-row"><div class="sl">Purpose</div><span style="color:var(--muted);font-size:12px">Employee Kit Allocation & One-Year Tracking</span></div>
+            <div class="sr-row"><div class="sl">Features</div><span style="color:var(--muted);font-size:12px">✓ Bulk Import/Export ✓ One-Year Cycles ✓ Mandatory Sizing ✓ Auto-Deductions</span></div>
           </div>
         </div>
       </div>
@@ -986,6 +1004,7 @@ function issueKit(){
   const nt=document.getElementById('k-nt').value.trim();
   const msg=document.getElementById('imsg');
   if(!code||!date){msg.style.display='block';msg.innerHTML='<div class="ib amber"><i class="ti ti-alert-circle"></i>Please select an employee and date.</div>';return;}
+  if(!shoe||!shirt){msg.style.display='block';msg.innerHTML='<div class="ib amber"><i class="ti ti-alert-circle"></i>⚠️ BOTH Shoe Size AND Shirt Size are REQUIRED to issue a kit!</div>';return;}
   msg.style.display='none';
   const nd=addYr(date);
   C.kits.push({id:uid(),empCode:code,date,type,shoeSize:shoe,shirtSize:shirt,qty,shoePrice:sp,shirtPrice:rp,notes:nt,nextDue:nd});
@@ -1323,6 +1342,84 @@ function dlCSV(rows,name){
 function openM(id){document.getElementById(id).classList.add('open');}
 function closeM(id){document.getElementById(id).classList.remove('open');}
 document.querySelectorAll('.overlay').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('open');}));
+
+// ══════════════════ BULK IMPORT/EXPORT ══════════════════
+function handleBulkImport(event){
+  const file=event.target.files[0];
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=(e)=>{
+    try{
+      const lines=e.target.result.split('\n').filter(l=>l.trim());
+      if(lines.length<2){alert('CSV must have headers and data');return;}
+      const headers=lines[0].split(',').map(h=>h.trim().toLowerCase());
+      const codeIdx=headers.findIndex(h=>h.includes('code'));
+      const nameIdx=headers.findIndex(h=>h.includes('name')&&!h.includes('company'));
+      const compIdx=headers.findIndex(h=>h.includes('company'));
+      const posIdx=headers.findIndex(h=>h.includes('position'));
+      const dojIdx=headers.findIndex(h=>h.includes('doj')||h.includes('joining'));
+      if(codeIdx===-1||nameIdx===-1){alert('CSV must have Employee Code and Employee Names columns');return;}
+      let added=0;
+      if(!C.addedEmps)C.addedEmps=[];
+      for(let i=1;i<lines.length;i++){
+        const cols=lines[i].split(',').map(c=>c.trim().replace(/^"|"$/g,''));
+        if(cols.length<=Math.max(codeIdx,nameIdx)||!cols[codeIdx])continue;
+        if(allEmps().find(e=>e.empCode===cols[codeIdx])){continue;}
+        const emp={
+          id:cols[codeIdx],
+          empCode:cols[codeIdx],
+          name:cols[nameIdx],
+          company:compIdx>=0?cols[compIdx]:'',
+          pos:posIdx>=0?cols[posIdx]:'',
+          joinDate:dojIdx>=0?cols[dojIdx]:new Date().toISOString().split('T')[0],
+          phone:'',
+          notes:'',
+          baseKitDate:''
+        };
+        C.addedEmps.push(emp);
+        added++;
+      }
+      if(added>0){
+        qS();
+        toast(`✓ Imported ${added} new employee${added!==1?'s':''}!`,'ok');
+        renderEmps();
+      }else{
+        toast('⚠️ No new employees to add (all codes already exist)','info');
+      }
+    }catch(err){
+      toast('Error reading file: '+err.message,'err');
+    }
+  };
+  reader.readAsText(file);
+  event.target.value='';
+}
+
+function exportEmployees(){
+  const emps=allEmps();
+  if(emps.length===0){alert('No employees to export');return;}
+  let csv='Sr. No,Employee Code,ESIC Number,UAN No,Employee Names,DOJ,Position,Company Name\n';
+  emps.forEach((e,i)=>{
+    csv+=`${i+1},"${e.empCode||''}","","","${e.name||''}","${e.joinDate||''}","${e.pos||''}","${e.company||''}"\n`;
+  });
+  const a=document.createElement('a');
+  a.href='data:text/csv;charset=utf-8,'+encodeURIComponent(csv);
+  a.download=`employees_${new Date().toISOString().split('T')[0]}.csv`;
+  a.click();
+  toast('✓ Exported to CSV','ok');
+}
+
+// ══════════════════ ONE-YEAR CALCULATION ══════════════════
+function calcStatus(lastKitDate){
+  if(!lastKitDate)return'none';
+  const last=new Date(lastKitDate);
+  const oneYear=new Date(last);
+  oneYear.setFullYear(oneYear.getFullYear()+1);
+  const today=new Date();
+  const daysLeft=Math.ceil((oneYear-today)/(1000*60*60*24));
+  if(daysLeft<0)return'due';
+  if(daysLeft<=30)return'soon';
+  return'ok';
+}
 
 // ══════════════════ INIT ══════════════════
 function refreshAll(){renderDash();renderRecent();setupIssue();}
